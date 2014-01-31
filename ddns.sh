@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Step 1: Fill in EMAIL, TOKEN, DOMAIN and SUBDOMAIN
+# Step 1: Fill in EMAIL, TOKEN, DOMAIN and SUBDOMAIN. Your token is here: https://www.cloudflare.com/my-account
 # Step 2: Create an A record on Cloudflare with the subdomain you chose
 # Step 3: Run "./ddns.sh -l" to get the rec_id of the record you created. 
 #         Fill in REC_ID below
