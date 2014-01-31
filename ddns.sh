@@ -7,7 +7,7 @@
 # Step 4: Run "./ddns.sh". It should tell you that record was updated or that it didn't need updating.
 #         Use "./ddns.sh -s to silence normal output (e.g. to run as a cron script)"
 
-IP=`curl -s http://ipv4.icanhazip.com`
+IP=`curl -s http://icanhazip.com`
 IP_FILE='/tmp/ddns_last_ip'
 [[ -r "$IP_FILE" ]] && LAST_IP=`cat $IP_FILE` || LAST_IP=''
 
@@ -19,13 +19,13 @@ REC_ID=''
 
 CURL="curl -s https://www.cloudflare.com/api_json.html -d email=$EMAIL -d tkn=$TOKEN -d z=$DOMAIN "
 
-if [ "$IP" == "$LAST_IP" ]; then
-  [ "$1" != "-s" ] && echo "IP Unchanged"
+if [ "$1" == "-l" ]; then
+  $CURL -d 'a=rec_load_all' | sed -e 's/[{}]/\n/g' | grep '"name":"'"$SUBDOMAIN"'.'"$DOMAIN"'"' | grep '"type":"A"' | sed -e 's/,/\n/g' | grep '\"rec_id\|\"name'
   exit
 fi
 
-if [ "$1" == "-l" ]; then
-  $CURL -d 'a=rec_load_all' | sed -e 's/[{}]/\n/g' | grep '"name":"'"$SUBDOMAIN"'.'"$DOMAIN"'"' | grep '"type":"A"' | sed -e 's/,/\n/g'
+if [ "$IP" == "$LAST_IP" ]; then
+  [ "$1" != "-s" ] && echo "IP Unchanged"
   exit
 fi
 
@@ -40,5 +40,5 @@ $CURL \
   -d 'service_mode=0' \
   -d "content=$IP" \
   1>/dev/null
-
+  
 echo $IP > $IP_FILE
