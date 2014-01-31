@@ -7,7 +7,7 @@
 # Step 4: Run "./ddns.sh". It should tell you that record was updated or that it didn't need updating.
 #         Use "./ddns.sh -s to silence normal output (e.g. to run as a cron script)"
 
-IP=`curl -s http://icanhazip.com`
+IP=`curl -s http://ipv4.icanhazip.com`
 IP_FILE='/tmp/ddns_last_ip'
 [[ -r "$IP_FILE" ]] && LAST_IP=`cat $IP_FILE` || LAST_IP=''
 
