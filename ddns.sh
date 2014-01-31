@@ -5,11 +5,12 @@
 # Step 3: Run "./ddns.sh -l" to get the rec_id of the record you created. 
 #         Fill in REC_ID below
 # Step 4: Run "./ddns.sh". It should tell you that record was updated or that it didn't need updating.
-#         Use "./ddns.sh -s to silence normal output (e.g. to run as a cron script)"
+# Step 5: Run it every hour with cron. Use the '-s' flag to silence normal output
+#         0 * * * * /path/to/ddns.sh -s
 
-IP=`curl -s http://ipv4.icanhazip.com`
+IP=$(curl -s http://ipv4.icanhazip.com)
 IP_FILE='/tmp/ddns_last_ip'
-[[ -r "$IP_FILE" ]] && LAST_IP=`cat $IP_FILE` || LAST_IP=''
+[[ -r "$IP_FILE" ]] && LAST_IP=$(cat $IP_FILE) || LAST_IP=''
 
 EMAIL=''
 TOKEN=''
@@ -41,4 +42,4 @@ $CURL \
   -d "content=$IP" \
   1>/dev/null
   
-echo $IP > $IP_FILE
+echo "$IP" > $IP_FILE
