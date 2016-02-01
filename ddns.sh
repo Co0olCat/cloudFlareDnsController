@@ -8,6 +8,8 @@
 # Step 5: Run it every hour with cron. Use the '-s' flag to silence normal output
 #         0 * * * * /path/to/ddns.sh -s
 
+set -euo pipefail
+
 IP=$(curl -s http://ipv4.icanhazip.com)
 IP_FILE='/tmp/ddns_last_ip'
 [[ -r "$IP_FILE" ]] && LAST_IP=$(cat $IP_FILE) || LAST_IP=''
@@ -20,17 +22,17 @@ REC_ID=''
 
 CURL="curl -s https://www.cloudflare.com/api_json.html -d email=$EMAIL -d tkn=$TOKEN -d z=$DOMAIN "
 
-if [ "$1" == "-l" ]; then
+if [ "${1:-}" == "-l" ]; then
   $CURL -d 'a=rec_load_all' | sed -e 's/[{}]/\n/g' | grep '"name":"'"$SUBDOMAIN"'.'"$DOMAIN"'"' | grep '"type":"A"' | sed -e 's/,/\n/g' | grep '\"rec_id\|\"name'
   exit
 fi
 
 if [ "$IP" == "$LAST_IP" ]; then
-  [ "$1" != "-s" ] && echo "IP Unchanged"
+  [ "${1:-}" != "-s" ] && echo "IP Unchanged"
   exit
 fi
 
-[ "$1" != "-s" ] && echo "Setting IP to $IP"
+[ "${1:-}" != "-s" ] && echo "Setting IP to $IP"
 
 $CURL \
   -d 'a=rec_edit' \
