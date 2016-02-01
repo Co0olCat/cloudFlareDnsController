@@ -27,12 +27,12 @@ CURL="curl -s https://www.cloudflare.com/api_json.html -d email=$EMAIL -d tkn=$T
 
 if [ "${1:-}" == "-l" ]; then
   $CURL -d 'a=rec_load_all' | sed -e 's/[{}]/\n/g' | grep '"name":"'"$SUBDOMAIN"'.'"$DOMAIN"'"' | grep '"type":"A"' | sed -e 's/,/\n/g' | grep '\"rec_id\|\"name'
-  exit
+  exit 0
 fi
 
 if [ "$IP" == "$LAST_IP" ]; then
   [ "${1:-}" != "-s" ] && echo "IP Unchanged"
-  exit
+  exit 0
 fi
 
 [ "${1:-}" != "-s" ] && echo "Setting IP to $IP"
@@ -48,3 +48,4 @@ $CURL \
   1>/dev/null
   
 echo "$IP" > $IP_FILE
+exit 0
