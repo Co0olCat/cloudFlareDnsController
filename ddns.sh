@@ -8,17 +8,20 @@
 # Step 5: Run it every hour with cron. Use the '-s' flag to silence normal output
 #         0 * * * * /path/to/ddns.sh -s
 
-set -euo pipefail
-
-IP=$(curl -s http://ipv4.icanhazip.com)
-IP_FILE='/tmp/ddns_last_ip'
-[[ -r "$IP_FILE" ]] && LAST_IP=$(cat $IP_FILE) || LAST_IP=''
 
 EMAIL=''
 TOKEN=''
 DOMAIN=''
 SUBDOMAIN=''
 REC_ID=''
+
+
+
+set -euo pipefail
+
+IP=$(curl -s http://ipv4.icanhazip.com)
+IP_FILE='/tmp/ddns_last_ip'
+[[ -r "$IP_FILE" ]] && LAST_IP=$(cat $IP_FILE) || LAST_IP=''
 
 CURL="curl -s https://www.cloudflare.com/api_json.html -d email=$EMAIL -d tkn=$TOKEN -d z=$DOMAIN "
 
