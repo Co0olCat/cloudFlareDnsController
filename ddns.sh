@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Step 1: Fill in EMAIL, TOKEN, DOMAIN and SUBDOMAIN. Your token is here: https://www.cloudflare.com/my-account
 # Step 2: Create an A record on Cloudflare with the subdomain you chose
