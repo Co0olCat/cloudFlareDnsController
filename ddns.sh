@@ -56,8 +56,8 @@ $VERBOSE && echo "Checking whether it is accessible..."
 # Check whether server is accessible
 if ping -c1 -W1 $RECORD_IP &> /dev/null 
 then 
-	# Domain is accessible -> no change is required
-	$VERBOSE && echo "$DOMAIN is UP"
+    # Domain is accessible -> no change is required
+    $VERBOSE && echo "$DOMAIN is UP"
     
     #Check whether it is main address
     if [ "$RECORD_IP" == "$MAIN_IP" ]; then
