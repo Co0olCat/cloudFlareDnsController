@@ -71,7 +71,7 @@ then
         	$VERBOSE && echo "MAIN IP is accessible -> Switching..."	
 			$VERBOSE && echo "Setting IP to $MAIN_IP"
 
-			$CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$DOMAIN"'","content":"'"$MAIN_IP"'","proxied":true}' 1>/dev/null
+			$CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$SUBDOMAIN"'","content":"'"$MAIN_IP"'","proxied":true}' 1>/dev/null
         else 
         	$VERBOSE && echo "MAIN IP is NOT accessible -> Keeping existing settings"
         fi
