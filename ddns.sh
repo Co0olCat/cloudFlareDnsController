@@ -77,12 +77,27 @@ then
         fi
     fi
 else 
-	# Domain is not accessible -> 
-	$VERBOSE && echo "$DOMAIN is down -> switching IP"   
-	
-	$VERBOSE && echo "Setting IP to $BACKUP_IP"
+    # Domain is not accessible -> 
+    $VERBOSE && echo "$DOMAIN is down -> switching IP"   
+    
+    # Check whether it is main address
+    if [ "$RECORD_IP" == "$MAIN_IP" ]; then
+    	$VERBOSE && echo "This is MAIN IP"
+    else 
+    	$VERBOSE && echo "This is BACKUP IP"
+        BACKUP_IP = $MAIN_IP
+    fi
+        
+    # Check whether BACKUP IP is accessible
+    if ping -c1 -W1 $BACKUP_IP &> /dev/null 
+    then 
+        $VERBOSE && echo "BACKUP IP is accessible -> Switching..."	
+        $VERBOSE && echo "Setting IP to $BACKUP_IP"
 
-	$CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$DOMAIN"'","content":"'"$BACKUP_IP"'","proxied":true}' 1>/dev/null
+        $CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$SUBDOMAIN"'","content":"'"$BACKUP_IP"'","proxied":true}' 1>/dev/null
+    else 
+        $VERBOSE && echo "BACKUP IP is NOT accessible -> Keeping existing settings"
+    fi    
 fi
 
 exit 0
