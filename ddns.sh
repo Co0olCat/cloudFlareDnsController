@@ -67,13 +67,13 @@ then
         
         # Check whether MAIN IP is accessible
         if ping -c1 -W1 $MAIN_IP &> /dev/null 
-		then 
-        	$VERBOSE && echo "MAIN IP is accessible -> Switching..."	
-			$VERBOSE && echo "Setting IP to $MAIN_IP"
+	then 
+           $VERBOSE && echo "MAIN IP is accessible -> Switching..."	
+	   $VERBOSE && echo "Setting IP to $MAIN_IP"
 
-			$CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$SUBDOMAIN"'","content":"'"$MAIN_IP"'","proxied":true}' 1>/dev/null
+	   $CURL -X PUT "$API_URL/zones/$ZONE_ID/dns_records/$REC_ID" --data '{"type":"A","name":"'"$SUBDOMAIN"'","content":"'"$MAIN_IP"'","proxied":true}' 1>/dev/null
         else 
-        	$VERBOSE && echo "MAIN IP is NOT accessible -> Keeping existing settings"
+           $VERBOSE && echo "MAIN IP is NOT accessible -> Keeping existing settings"
         fi
     fi
 else 
