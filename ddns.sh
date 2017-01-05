@@ -61,7 +61,7 @@ then
     
     #Check whether it is main address
     if [ "$RECORD_IP" == "$MAIN_IP" ]; then
-    	$VERBOSE && echo "This is MAIN IP"
+    	$VERBOSE && echo "This is MAIN IP -> Keeping existing settings"
     else 
     	$VERBOSE && echo "This is BACKUP IP"
         
